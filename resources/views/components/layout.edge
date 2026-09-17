@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title || 'orepmi — Suivi GPS - Anti-Vol' }}</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/images/logos/logo_without_name.svg" />
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('dumper')
+  </head>
+  <body>
+    @include('partials/header')
+    <main>
+      @include('partials/flash_alerts')
+      {{{ await $slots.main() }}}
+    </main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>orepmi &copy; 2026</span>
+      </div>
+    </footer>
+  </body>
+</html>

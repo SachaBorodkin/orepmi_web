@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="header-container">
+    <a href="{{ route('home') }}" class="logo-link" title="orepmi">
+      <img src="/assets/images/logos/logo_with_name.svg" alt="orepmi" class="site-logo" />
+    </a>
+
+    <nav class="header-nav">
+      <a href="{{ route('home') }}" class="nav-link">Mes Trackers</a>
+      <a href="#aide" class="nav-link">Aide</a>
+
+      @if(auth.user)
+        <span class="user-name">{{ auth.user.name || auth.user.fullName || 'Utilisateur' }}</span>
+        <form method="POST" action="{{ route('session.destroy') }}" style="display: inline; margin: 0;">
+          {{ csrfField() }}
+          <button type="submit" class="btn-logout">Déconnexion</button>
+        </form>
+      @else
+        <a href="{{ route('session.create') }}" class="btn-connexion">Connexion</a>
+      @end
+    </nav>
+  </div>
+</header>

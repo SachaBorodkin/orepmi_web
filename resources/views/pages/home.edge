@@ -1,0 +1,137 @@
+@layout()
+  <div class="page-container">
+    @if(auth.user)
+      {{-- Authenticated Dashboard (Image 1) --}}
+      <div class="dashboard-header">
+        <h1 class="dashboard-title">Bonjour {{ auth.user.name || auth.user.fullName || 'Utilisateur' }}</h1>
+        <p class="dashboard-subtitle">Votre point de situation :</p>
+      </div>
+
+      <div class="trackers-grid">
+        {{-- Tracker 1: Active Bike Tracker --}}
+        <div class="tracker-card">
+          <div class="tracker-map-preview">
+            <div class="tracker-map-pin">
+              <div class="point-pin-icon"></div>
+              <div class="point-pin-stem"></div>
+            </div>
+          </div>
+          <div class="tracker-card-body">
+            <div class="tracker-name-battery">
+              Vélo - Batterie du tracker: <span class="tracker-battery">77%</span>
+            </div>
+            <div class="tracker-added-date">Ajouté le 12 mars 2026</div>
+            <div class="tracker-status">VERROUILLÉ - Pas de mouvement</div>
+            <div class="tracker-actions">
+              <button type="button" class="btn-card-white">Déverrouiller</button>
+              <button type="button" class="btn-card-danger">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {{-- Tracker 2: Add Tracker Card --}}
+        <div class="add-tracker-card" onclick="alert('Fonctionnalité d\'ajout de tracker bientôt disponible.')">
+          <div class="add-icon">+</div>
+          <div class="add-label">Ajouter un tracker</div>
+        </div>
+      </div>
+
+    @else
+      {{-- Landing Page (Image 2) --}}
+      <section class="hero-section">
+        <div class="hero-left">
+          <span class="hero-tag">Suivi GPS - Anti-Vol</span>
+          <h1 class="hero-title">Sachez toujours où<br />sont vos objets.</h1>
+          <a href="{{ route('new_account.create') }}" class="hero-highlight-link">
+            Ajoutez vos trackers ou votre téléphone et recevez les alerte en cas du vol
+          </a>
+          <div class="hero-actions">
+            <a href="{{ route('new_account.create') }}" class="btn-white">Créer un compte</a>
+            <a href="#comment-ca-marche" class="btn-ghost">Voir comment ça marche</a>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="radar-widget">
+            <div class="radar-grid"></div>
+
+            <div class="radar-badge">
+              <span class="badge-square"></span>
+              MOUVEMENT DÉTECTÉ
+            </div>
+
+            <div class="radar-content">
+              {{-- SVG Tracking Path --}}
+              <svg class="radar-track-svg" viewBox="0 0 500 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M 50 280 C 150 270, 200 240, 260 210 C 310 185, 370 160, 440 90"
+                  stroke="#475569"
+                  stroke-width="1.5"
+                  stroke-dasharray="4 4"
+                />
+              </svg>
+
+              {{-- Point 1: Valise --}}
+              <div class="radar-point" style="left: 260px; top: 210px;">
+                <div class="point-diamond"></div>
+                <span style="color: #94a3b8; font-size: 11px;">VALISE — statique</span>
+              </div>
+
+              {{-- Point 2: Sac --}}
+              <div class="radar-point" style="left: 330px; top: 175px;">
+                <div class="point-diamond"></div>
+                <span style="color: #94a3b8; font-size: 11px;">SAC — statique</span>
+              </div>
+
+              {{-- Point 3: Vélo (Active/Moving) --}}
+              <div class="radar-point" style="left: 440px; top: 90px;">
+                <div class="point-orange">
+                  <div class="point-pin-icon"></div>
+                  <div class="point-pin-stem"></div>
+                </div>
+                <span style="color: var(--accent-orange); font-weight: 600; font-size: 11px; margin-left: 4px;">
+                  VÉLO — il y a 2 min
+                </span>
+              </div>
+            </div>
+
+            <div class="radar-footer-count">3 TRACKERS ACTIFS</div>
+          </div>
+        </div>
+      </section>
+
+      {{-- 3 Features Grid --}}
+      <section class="features-section" id="comment-ca-marche">
+        <div class="feature-card">
+          <div class="feature-number">01</div>
+          <h3 class="feature-title">Position en temps réel</h3>
+          <p class="feature-desc">
+            Consultez la dernière position connue de chaque tracker, actualisée en continu.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">02</div>
+          <h3 class="feature-title">Alertes de mouvement</h3>
+          <p class="feature-desc">
+            Recevez une notification dès qu'un objet "bloqué" se déplace.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-number">03</div>
+          <h3 class="feature-title">Historique des trajets</h3>
+          <p class="feature-desc">
+            Retracez le parcours d'un objet sur les dernières 24 heures ou 30 jours.
+          </p>
+        </div>
+      </section>
+    @end
+  </div>
+@end

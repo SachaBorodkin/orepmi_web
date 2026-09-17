@@ -1,0 +1,90 @@
+@layout()
+  <div class="auth-page-wrapper">
+    <div class="auth-card">
+      {{-- Card Header --}}
+      <div class="auth-card-header">
+        <a href="{{ route('home') }}" class="logo-link">
+          <img src="/assets/images/logos/logo_with_name.svg" alt="orepmi" class="auth-logo" />
+        </a>
+        <a href="{{ route('home') }}" class="auth-close-btn" title="Fermer">&times;</a>
+      </div>
+
+      {{-- Map Banner with Coordinates & Pin --}}
+      <div class="auth-map-banner">
+        <span class="map-coords">46.519°N, 6.632°E</span>
+        <div class="point-orange">
+          <div class="point-pin-icon"></div>
+          <div class="point-pin-stem"></div>
+        </div>
+      </div>
+
+      {{-- Card Body --}}
+      <div class="auth-card-body">
+        <h2 class="auth-heading">Connectez-vous pour voir vos trackers</h2>
+        <p class="auth-subtext">
+          Vos objets restent localisés en arrière-plan — connectez-vous pour consulter leur position et leur historique.
+        </p>
+
+        @if(flashMessages.has('error'))
+          <div class="alert-banner error">
+            {{ flashMessages.get('error') }}
+          </div>
+        @end
+
+        @if(flashMessages.has('success'))
+          <div class="alert-banner success">
+            {{ flashMessages.get('success') }}
+          </div>
+        @end
+
+        <form method="POST" action="{{ route('session.store') }}" class="auth-form">
+          {{ csrfField() }}
+
+          <div class="form-group">
+            <label for="email" class="form-label">EMAIL</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-input"
+              value="{{ old('email') || '' }}"
+              placeholder="vous@exemple.com"
+              required
+              autocomplete="email"
+            />
+            @if(flashMessages.has('errors.email'))
+              <span class="form-error-msg">{{ flashMessages.get('errors.email')[0] }}</span>
+            @end
+          </div>
+
+          <div class="form-group">
+            <label for="password" class="form-label">MOT DE PASSE</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-input"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            />
+            @if(flashMessages.has('errors.password'))
+              <span class="form-error-msg">{{ flashMessages.get('errors.password')[0] }}</span>
+            @end
+          </div>
+
+          <button type="submit" class="btn-auth-submit">Se connecter</button>
+
+          <div class="auth-footer-link">
+            Pas de compte? <a href="{{ route('new_account.create') }}">Créer un compte</a>
+          </div>
+        </form>
+      </div>
+
+      {{-- Card Footer --}}
+      <div class="auth-card-footer">
+        <span class="auth-version">orepmi V1.0</span>
+      </div>
+    </div>
+  </div>
+@end
