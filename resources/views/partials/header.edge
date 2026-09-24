@@ -6,7 +6,7 @@
 
     <nav class="header-nav">
       <a href="{{ route('home') }}" class="nav-link">Mes Trackers</a>
-      <a href="#aide" class="nav-link">Aide</a>
+      <a href="{{ route('help') }}" class="nav-link">Aide</a>
 
       @if(auth.user)
         <span class="user-name">{{ auth.user.name || auth.user.fullName || 'Utilisateur' }}</span>

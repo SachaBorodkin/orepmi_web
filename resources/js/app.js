@@ -1,5 +1,17 @@
 import Alpine from 'alpinejs'
 
+Alpine.store('trackerModal', {
+  isOpen: false,
+  open() {
+    this.isOpen = true
+    document.body.classList.add('overflow-hidden')
+  },
+  close() {
+    this.isOpen = false
+    document.body.classList.remove('overflow-hidden')
+  },
+})
+
 Alpine.data('alert', function () {
   return {
     isVisible: false,
@@ -17,4 +29,10 @@ Alpine.data('alert', function () {
   }
 })
 
+// Listen to custom window events if needed
+window.addEventListener('open-add-tracker', () => {
+  Alpine.store('trackerModal').open()
+})
+
+window.Alpine = Alpine
 Alpine.start()

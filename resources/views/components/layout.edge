@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('dumper')
   </head>
-  <body>
+  <body x-data>
     @include('partials/header')
     <main>
       @include('partials/flash_alerts')
@@ -19,5 +19,6 @@
         <span>orepmi &copy; 2026</span>
       </div>
     </footer>
+    @include('partials/add_tracker_modal')
   </body>
 </html>

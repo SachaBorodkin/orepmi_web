@@ -9,7 +9,7 @@
 
       <div class="trackers-grid">
  
-        <div class="add-tracker-card" onclick="alert('Fonctionnalité d\'ajout de tracker bientôt disponible.')">
+        <div class="add-tracker-card" @click="$store.trackerModal.open()" role="button" tabindex="0" @keydown.enter="$store.trackerModal.open()">
           <div class="add-icon">+</div>
           <div class="add-label">Ajouter un tracker</div>
         </div>
