@@ -56,7 +56,7 @@ Rendez-vous ensuite sur [http://localhost:3333](http://localhost:3333).
 - **Framework** : [AdonisJS 6](https://adonisjs.com/)
 - **Vues** : [Edge.js](https://edgejs.dev/) (Server-Side Rendering sans SPA/Vue/React)
 - **Base de données / ORM** : [Lucid ORM](https://lucid.adonisjs.com/) avec pilote `pg` PostgreSQL
-- **BaaS** : [Supabase](https://supabase.com/) (PostgreSQL & `@supabase/supabase-js`)
+- **BaaS** : [Supabase](https://supabase.com/) (PostgreSQL & `@supabase/supabase-js`) avec **Row Level Security (RLS)** activé
 - **Assets** : Vite + Alpine.js
 - **Validation** : VineJS
 
