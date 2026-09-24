@@ -1135,3 +1135,141 @@ body.overflow-hidden {
   transform: scale(0.95) translateY(8px);
 }
 
+
+/* ==========================================================================
+   HELP PAGE
+   ========================================================================== */
+
+/* Hero */
+.help-hero {
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 40px;
+}
+
+.help-hero-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-orange);
+  background-color: rgba(249, 87, 33, 0.1);
+  border: 1px solid rgba(249, 87, 33, 0.25);
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.help-hero-title {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.help-hero-sub {
+  font-size: 16px;
+  color: var(--text-secondary);
+  max-width: 520px;
+}
+
+/* FAQ grid */
+.help-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.help-faq-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 22px 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: border-color 0.2s ease;
+}
+
+.help-faq-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.help-faq-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: rgba(249, 87, 33, 0.1);
+  border: 1px solid rgba(249, 87, 33, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-orange);
+  margin-top: 2px;
+}
+
+.help-faq-body { flex: 1; }
+
+.help-faq-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.help-faq-text {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.help-faq-text strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Contact banner */
+.help-contact {
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background-color: var(--bg-card);
+  padding: 28px 32px;
+  margin-bottom: 8px;
+}
+
+.help-contact-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.help-contact-tag {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.help-contact-text {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.help-contact-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .help-faq-grid { grid-template-columns: 1fr; }
+  .help-hero-title { font-size: 28px; }
+  .help-contact-inner { flex-direction: column; align-items: flex-start; }
+}
