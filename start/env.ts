@@ -36,8 +36,8 @@ export default await Env.create(new URL('../', import.meta.url), {
   DB_SSL: Env.schema.boolean.optional(),
 
   // Supabase Client SDK
-  SUPABASE_URL: Env.schema.string.optional(),
-  SUPABASE_ANON_KEY: Env.schema.string.optional(),
+  SUPABASE_URL: Env.schema.string({ format: 'url', tld: false }),
+  SUPABASE_ANON_KEY: Env.schema.string(),
   SUPABASE_SERVICE_ROLE_KEY: Env.schema.string.optional(),
 })
 
