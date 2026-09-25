@@ -68,7 +68,6 @@
     "@adonisjs/vite": "^6.0.1",
     "@supabase/supabase-js": "^2.116.0",
     "@vinejs/vine": "^4.4.0",
-    "better-sqlite3": "^13.0.3",
     "edge.js": "^6.5.1",
     "luxon": "^3.7.2",
     "pg": "^8.23.0",
