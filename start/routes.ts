@@ -14,7 +14,9 @@ import router from '@adonisjs/core/services/router'
 const HomeController = () => import('#controllers/home_controller')
 router.get('/', [HomeController, 'index']).as('home')
 router.on('/help').render('pages/help').as('help')
-
+router.get('/health', async () => {
+  return { status: 'ok' }
+})
 // Public API — latest GPS location for the live map
 const LocationController = () => import('#controllers/location_controller')
 router.get('/api/locations/latest', [LocationController, 'latest']).as('api.locations.latest')
