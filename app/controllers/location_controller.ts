@@ -11,7 +11,7 @@ export default class LocationController {
    */
   async latest({ response }: HttpContext) {
     const row = await db
-      .from('locations')
+      .from('gps_logs')
       .orderBy('created_at', 'desc')
       .first()
 
