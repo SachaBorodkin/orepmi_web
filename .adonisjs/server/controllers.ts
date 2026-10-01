@@ -7,4 +7,5 @@ export const controllers = {
   GoogleAuth: () => import('#controllers/google_auth_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   Session: () => import('#controllers/session_controller'),
+  Location: () => import('#controllers/location_controller'),
 }

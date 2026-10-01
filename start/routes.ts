@@ -14,6 +14,10 @@ import router from '@adonisjs/core/services/router'
 router.on('/').render('pages/home').as('home')
 router.on('/help').render('pages/help').as('help')
 
+// Public API — latest GPS location for the live map
+const LocationController = () => import('#controllers/location_controller')
+router.get('/api/locations/latest', [LocationController, 'latest']).as('api.locations.latest')
+
 // Google OAuth — server-side PKCE flow via Supabase
 // These routes are intentionally outside the guest middleware so the callback
 // URL is always reachable (Supabase redirects here after Google authenticates).

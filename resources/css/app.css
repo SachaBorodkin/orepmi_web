@@ -1320,3 +1320,65 @@ body.overflow-hidden {
   .help-hero-title { font-size: 28px; }
   .help-contact-inner { flex-direction: column; align-items: flex-start; }
 }
+
+/* ==========================================================================
+   LIVE MAP TRACKER CARD
+   ========================================================================== */
+
+/* The Leaflet map inside the tracker card */
+.tracker-map-live {
+  height: 200px;
+  background-color: #0b0f13;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Fix Leaflet z-index conflicts with the sticky header */
+.tracker-map-live .leaflet-pane,
+.tracker-map-live .leaflet-top,
+.tracker-map-live .leaflet-bottom {
+  z-index: 1;
+}
+
+/* Widen the tracker grid so the map card has breathing room */
+.trackers-grid {
+  grid-template-columns: 320px 280px;
+}
+
+/* Custom orange pulsing pin marker */
+.map-marker-pin {
+  width: 18px;
+  height: 18px;
+  background-color: var(--accent-orange);
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 3px rgba(249, 87, 33, 0.4), 0 0 14px rgba(249, 87, 33, 0.7);
+  animation: pin-pulse 2s ease-in-out infinite;
+}
+
+@keyframes pin-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(249, 87, 33, 0.4), 0 0 14px rgba(249, 87, 33, 0.7); }
+  50%       { box-shadow: 0 0 0 6px rgba(249, 87, 33, 0.15), 0 0 22px rgba(249, 87, 33, 0.5); }
+}
+
+/* Dark Leaflet attribution bar */
+.leaflet-container .leaflet-control-attribution {
+  background: rgba(12, 16, 20, 0.85);
+  color: var(--text-muted);
+  font-size: 9px;
+}
+
+.leaflet-container .leaflet-control-attribution a {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 900px) {
+  .trackers-grid {
+    grid-template-columns: 1fr;
+  }
+  .tracker-map-live {
+    height: 180px;
+  }
+}

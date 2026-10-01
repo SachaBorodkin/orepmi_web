@@ -6,6 +6,7 @@ export type ScannedRoutes = {
   ALL: {
     'home': { paramsTuple?: []; params?: {} }
     'help': { paramsTuple?: []; params?: {} }
+    'api.locations.latest': { paramsTuple?: []; params?: {} }
     'auth.google': { paramsTuple?: []; params?: {} }
     'auth.google.callback': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
@@ -17,6 +18,7 @@ export type ScannedRoutes = {
   GET: {
     'home': { paramsTuple?: []; params?: {} }
     'help': { paramsTuple?: []; params?: {} }
+    'api.locations.latest': { paramsTuple?: []; params?: {} }
     'auth.google': { paramsTuple?: []; params?: {} }
     'auth.google.callback': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }
@@ -25,6 +27,7 @@ export type ScannedRoutes = {
   HEAD: {
     'home': { paramsTuple?: []; params?: {} }
     'help': { paramsTuple?: []; params?: {} }
+    'api.locations.latest': { paramsTuple?: []; params?: {} }
     'auth.google': { paramsTuple?: []; params?: {} }
     'auth.google.callback': { paramsTuple?: []; params?: {} }
     'new_account.create': { paramsTuple?: []; params?: {} }

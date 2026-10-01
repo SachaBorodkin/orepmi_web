@@ -8,7 +8,8 @@
       </div>
 
       <div class="trackers-grid">
- 
+        @include('partials/tracker_map', { trackerId: 'device-1', trackerName: 'Mon tracker' })
+
         <div class="add-tracker-card" @click="$store.trackerModal.open()" role="button" tabindex="0" @keydown.enter="$store.trackerModal.open()">
           <div class="add-icon">+</div>
           <div class="add-label">Ajouter un tracker</div>
