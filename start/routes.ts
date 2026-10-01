@@ -11,7 +11,8 @@ import { middleware } from '#start/kernel'
 import { controllers } from '#generated/controllers'
 import router from '@adonisjs/core/services/router'
 
-router.on('/').render('pages/home').as('home')
+const HomeController = () => import('#controllers/home_controller')
+router.get('/', [HomeController, 'index']).as('home')
 router.on('/help').render('pages/help').as('help')
 
 // Public API — latest GPS location for the live map

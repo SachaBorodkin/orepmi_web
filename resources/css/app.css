@@ -1335,6 +1335,14 @@ body.overflow-hidden {
   z-index: 0;
 }
 
+.tracker-map-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
 /* Fix Leaflet z-index conflicts with the sticky header */
 .tracker-map-live .leaflet-pane,
 .tracker-map-live .leaflet-top,

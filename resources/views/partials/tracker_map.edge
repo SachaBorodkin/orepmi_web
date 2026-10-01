@@ -1,30 +1,52 @@
 {{--
-  Tracker live map partial.
-  Usage: @include('partials/tracker_map', { trackerId: 'my-bike' })
-
-  Polls GET /api/locations/latest every 5 s.
-  The marker only moves when at least 4 decimal places of lat/lng change
-  (≈ 11 m precision threshold — ignores GPS noise on a stationary device).
+  Tracker map partial.
+  Requires `lastLocation` in scope (set by HomeController).
+  Leaflet is loaded via Vite bundle (tracker-map.js).
 --}}
-<div class="tracker-card" id="tracker-card-{{ trackerId ?? 'device' }}">
-  <div class="tracker-map-live" id="map-{{ trackerId ?? 'device' }}"></div>
+<div class="tracker-card">
+
+  @if(lastLocation)
+    <div
+      id="tracker-map"
+      class="tracker-map-live"
+      data-lat="{{ lastLocation.lat }}"
+      data-lng="{{ lastLocation.lng }}"
+    ></div>
+  @else
+    <div class="tracker-map-live tracker-map-empty">
+      <span>Aucune donnée GPS</span>
+    </div>
+  @end
 
   <div class="tracker-card-body">
     <div class="tracker-name-battery">
-      {{ trackerName ?? 'Tracker' }}
-      <span class="tracker-battery" id="tracker-speed-{{ trackerId ?? 'device' }}">— km/h</span>
+      Tracker
+      @if(lastLocation)
+        <span class="tracker-battery">{{ (lastLocation.speed * 3.6).toFixed(1) }} km/h</span>
+      @end
     </div>
-    <div class="tracker-added-date" id="tracker-ts-{{ trackerId ?? 'device' }}">Chargement…</div>
-    <div class="tracker-status" id="tracker-status-{{ trackerId ?? 'device' }}">CONNEXION…</div>
+
+    @if(lastLocation)
+      <div class="tracker-added-date">
+        Dernière position : {{ new Date(lastLocation.created_at).toLocaleString('fr-FR') }}
+      </div>
+      <div class="tracker-status" style="color: var(--accent-green)">EN LIGNE</div>
+    @else
+      <div class="tracker-added-date">Aucune donnée</div>
+      <div class="tracker-status" style="color: var(--text-muted)">HORS LIGNE</div>
+    @end
 
     <div class="tracker-actions">
-      <a
-        href="#"
-        class="btn-card-white"
-        id="tracker-maps-link-{{ trackerId ?? 'device' }}"
-        target="_blank"
-        rel="noopener"
-      >Ouvrir dans Maps</a>
+      @if(lastLocation)
+        <a
+          href="https://www.google.com/maps?q={{ lastLocation.lat }},{{ lastLocation.lng }}"
+          class="btn-card-white"
+          target="_blank"
+          rel="noopener"
+        >Ouvrir dans Maps</a>
+      @else
+        <span class="btn-card-white" style="opacity:0.4;cursor:default">Ouvrir dans Maps</span>
+      @end
       <button class="btn-card-danger" disabled>
         <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
         Supprimer
@@ -33,117 +55,6 @@
   </div>
 </div>
 
-<script>
-  (function () {
-    // Wait for DOM + Leaflet global to be ready
-    function init() {
-      if (typeof L === 'undefined') {
-        setTimeout(init, 50)
-        return
-      }
-    const TRACKER_ID = {{ JSON.stringify(trackerId ?? 'device') }}
-    const POLL_MS    = 5_000
-    // Movement threshold: ignore changes smaller than 0.0001° (~11 m)
-    const THRESHOLD  = 0.0001
-
-    // ── DOM refs ──────────────────────────────────────────────────────────
-    const mapEl      = document.getElementById(`map-${TRACKER_ID}`)
-    const speedEl    = document.getElementById(`tracker-speed-${TRACKER_ID}`)
-    const tsEl       = document.getElementById(`tracker-ts-${TRACKER_ID}`)
-    const statusEl   = document.getElementById(`tracker-status-${TRACKER_ID}`)
-    const mapsLink   = document.getElementById(`tracker-maps-link-${TRACKER_ID}`)
-
-    if (!mapEl) return
-
-    // ── Leaflet init ──────────────────────────────────────────────────────
-    const map = L.map(mapEl, { zoomControl: true, attributionControl: true })
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      maxZoom: 19,
-    }).addTo(map)
-
-    // Custom orange marker icon (matches app accent colour)
-    const icon = L.divIcon({
-      className: '',
-      html: `<div class="map-marker-pin"></div>`,
-      iconSize:   [18, 18],
-      iconAnchor: [9, 9],
-    })
-
-    let marker = null
-    let lastLat = null
-    let lastLng = null
-    let initialised = false
-
-    // ── Helpers ───────────────────────────────────────────────────────────
-    function trunc4(n) {
-      // Keep only 4 decimal places for comparison (avoids float noise)
-      return Math.trunc(n * 10_000) / 10_000
-    }
-
-    function hasMovedEnough(lat, lng) {
-      if (lastLat === null) return true
-      return (
-        Math.abs(trunc4(lat) - trunc4(lastLat)) >= THRESHOLD ||
-        Math.abs(trunc4(lng) - trunc4(lastLng)) >= THRESHOLD
-      )
-    }
-
-    function formatTs(iso) {
-      const d = new Date(iso)
-      return d.toLocaleString('fr-FR', {
-        day:    '2-digit',
-        month:  '2-digit',
-        year:   'numeric',
-        hour:   '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      })
-    }
-
-    // ── Polling ───────────────────────────────────────────────────────────
-    async function fetchLatest() {
-      try {
-        const res  = await fetch('/api/locations/latest')
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        const data = await res.json()
-        if (!data) return
-
-        const { lat, lng, speed, satellites, created_at } = data
-
-        // Only update the map if position changed meaningfully
-        if (hasMovedEnough(lat, lng)) {
-          if (!initialised) {
-            map.setView([lat, lng], 16)
-            marker = L.marker([lat, lng], { icon }).addTo(map)
-            initialised = true
-          } else {
-            marker.setLatLng([lat, lng])
-          }
-          lastLat = lat
-          lastLng = lng
-        }
-
-        // Always update metadata
-        const kmh = (speed * 3.6).toFixed(1)
-        speedEl.textContent  = `${kmh} km/h`
-        tsEl.textContent     = `Mis à jour : ${formatTs(created_at)}`
-        statusEl.textContent = 'EN LIGNE'
-        statusEl.style.color = 'var(--accent-green)'
-        mapsLink.href        = `https://www.google.com/maps?q=${lat},${lng}`
-
-      } catch (e) {
-        console.warn('[tracker-map] fetch error', e)
-        statusEl.textContent = 'HORS LIGNE'
-        statusEl.style.color = 'var(--accent-red)'
-      }
-    }
-
-    fetchLatest()
-    setInterval(fetchLatest, POLL_MS)
-    } // end init()
-
-    init()
-  })()
-</script>
+@if(lastLocation)
+  @vite(['resources/js/tracker-map.js'])
+@end

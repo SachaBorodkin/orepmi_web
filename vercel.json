@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "buildCommand": "node ace build",
+  "outputDirectory": "build",
+  "builds": [
+    {
+      "src": "build/bin/server.js",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": [
+          "build/**"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "headers": { "cache-control": "public, max-age=31536000, immutable" },
+      "dest": "/build/public/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/build/bin/server.js"
+    }
+  ]
+}
