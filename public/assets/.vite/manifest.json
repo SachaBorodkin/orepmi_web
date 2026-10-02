@@ -1,6 +1,18 @@
 {
+  "node_modules/leaflet/dist/images/layers-2x.png": {
+    "file": "layers-2x-Bpkbi35X.png",
+    "src": "node_modules/leaflet/dist/images/layers-2x.png"
+  },
+  "node_modules/leaflet/dist/images/layers.png": {
+    "file": "layers-BWBAp2CZ.png",
+    "src": "node_modules/leaflet/dist/images/layers.png"
+  },
+  "node_modules/leaflet/dist/images/marker-icon.png": {
+    "file": "marker-icon-hN30_KVU.png",
+    "src": "node_modules/leaflet/dist/images/marker-icon.png"
+  },
   "resources/css/app.css": {
-    "file": "app-CfThbWbB.css",
+    "file": "app-DO-sCLB7.css",
     "name": "app",
     "names": [
       "app.css"
@@ -13,5 +25,19 @@
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true
+  },
+  "resources/js/tracker-map.js": {
+    "file": "tracker-map-prRQrvsN.js",
+    "name": "tracker-map",
+    "src": "resources/js/tracker-map.js",
+    "isEntry": true,
+    "css": [
+      "tracker-map-ltrEmLwk.css"
+    ],
+    "assets": [
+      "layers-BWBAp2CZ.png",
+      "layers-2x-Bpkbi35X.png",
+      "marker-icon-hN30_KVU.png"
+    ]
   }
 }

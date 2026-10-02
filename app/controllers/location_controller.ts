@@ -19,6 +19,8 @@ export default class LocationController {
       return response.json(null)
     }
 
+    const isOnline = Date.now() - new Date(row.created_at).getTime() <= 30 * 1000
+
     return response.json({
       id: row.id,
       lat: parseFloat(row.latitude),
@@ -26,6 +28,7 @@ export default class LocationController {
       speed: parseFloat(row.speed ?? 0),
       satellites: row.satellites,
       created_at: row.created_at,
+      isOnline,
     })
   }
 }

@@ -9,6 +9,10 @@ export default class HomeController {
   async index({ view }: HttpContext) {
     const row = await db.from('gps_logs').orderBy('created_at', 'desc').first()
 
+    const isOnline = row
+      ? Date.now() - new Date(row.created_at).getTime() <= 30 * 1000
+      : false
+
     const lastLocation = row
       ? {
           lat: parseFloat(row.latitude),
@@ -16,6 +20,7 @@ export default class HomeController {
           speed: parseFloat(row.speed ?? 0),
           satellites: row.satellites ?? 0,
           created_at: row.created_at,
+          isOnline,
         }
       : null
 

@@ -3,6 +3,8 @@
   Requires `lastLocation` in scope (set by HomeController).
   Leaflet is loaded via Vite bundle (tracker-map.js).
 --}}
+@let(isOnline = lastLocation ? (lastLocation.isOnline ?? (Date.now() - new Date(lastLocation.created_at).getTime() <= 30000)) : false)
+
 <div class="tracker-card">
 
   @if(lastLocation)
@@ -11,6 +13,7 @@
       class="tracker-map-live"
       data-lat="{{ lastLocation.lat }}"
       data-lng="{{ lastLocation.lng }}"
+      data-created-at="{{ new Date(lastLocation.created_at).toISOString() }}"
     ></div>
   @else
     <div class="tracker-map-live tracker-map-empty">
@@ -19,26 +22,42 @@
   @end
 
   <div class="tracker-card-body">
+    <div id="tracker-alerts-container" class="tracker-alerts-container"></div>
+    <button
+      id="btn-enable-notifications"
+      type="button"
+      class="notification-prompt-btn"
+      style="display: none;"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      Activer les notifications du navigateur
+    </button>
+
     <div class="tracker-name-battery">
       Tracker
       @if(lastLocation)
-        <span class="tracker-battery">{{ (lastLocation.speed * 3.6).toFixed(1) }} km/h</span>
+        <span class="tracker-battery" id="tracker-speed">{{ (lastLocation.speed * 3.6).toFixed(1) }} km/h</span>
       @end
     </div>
 
     @if(lastLocation)
-      <div class="tracker-added-date">
+      <div class="tracker-added-date" id="tracker-added-date">
         Dernière position : {{ new Date(lastLocation.created_at).toLocaleString('fr-FR') }}
       </div>
-      <div class="tracker-status" style="color: var(--accent-green)">EN LIGNE</div>
+      @if(isOnline)
+        <div class="tracker-status" id="tracker-status" style="color: var(--accent-green)">EN LIGNE</div>
+      @else
+        <div class="tracker-status" id="tracker-status" style="color: var(--text-muted)">HORS LIGNE</div>
+      @end
     @else
-      <div class="tracker-added-date">Aucune donnée</div>
-      <div class="tracker-status" style="color: var(--text-muted)">HORS LIGNE</div>
+      <div class="tracker-added-date" id="tracker-added-date">Aucune donnée</div>
+      <div class="tracker-status" id="tracker-status" style="color: var(--text-muted)">HORS LIGNE</div>
     @end
 
     <div class="tracker-actions">
       @if(lastLocation)
         <a
+          id="tracker-maps-link"
           href="https://www.google.com/maps?q={{ lastLocation.lat }},{{ lastLocation.lng }}"
           class="btn-card-white"
           target="_blank"
